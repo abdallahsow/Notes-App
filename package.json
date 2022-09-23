@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "react-mde": "^11.5.0"
+    "react-mde": "^11.5.0",
+    "react-showdown": "^2.3.1"
   }
 }
