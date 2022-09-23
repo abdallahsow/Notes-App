@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Showdown from "showdown";
+import ReactMde from "react-mde";
 
 export default function Editor({ currentNote, updateNote }) {
   const [selectedTab, setSelectedTab] = useState("write");
