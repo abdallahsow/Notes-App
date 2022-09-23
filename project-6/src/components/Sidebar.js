@@ -7,7 +7,7 @@ export default function Sidebar(props) {
         className={`title ${note.id === currentNote.id ? "selected-one" : ""}`}
         onClick={() => setCurrentNoteId(note.id)}
       >
-        <h4>Note {index + 1}</h4>
+        <h4 className="text-snippet">Note {index + 1}</h4>
       </div>
     </div>
   ));

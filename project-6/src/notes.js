@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import Split from "react-split";
-import Sidebar from "./Sidebar";
-import Editor from "./Editor";
+import Sidebar from "./components/Sidebar";
+import Editor from "./components/Editor";
 import "./notes.css";
 
 const App = () => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(JSON.parse(localStorage.getItem("notes")) || []);
   const [currentNoteId, setCurrentNoteId] = useState(
     [notes[0] && notes[0].id] || ""
   );
@@ -20,6 +20,10 @@ const App = () => {
     setNotes(() => [newNote, ...notes]);
     setCurrentNoteId(newNote.id);
   };
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
 
   function updateNote(text) {
     setNotes(() =>
@@ -36,8 +40,9 @@ const App = () => {
       }) || notes[0]
     );
   }
+
   return (
-    <main>
+    <main className="app">
       {notes.length ? (
         <Split sizes={[30, 70]} direction="horizontal" className="split">
           <Sidebar
@@ -51,7 +56,7 @@ const App = () => {
           )}
         </Split>
       ) : (
-        <div>
+        <div className="no-notes">
           <h1>You have no notes</h1>
           <button className="first-note" onClick={createNewNote}>
             Create one now
@@ -61,6 +66,5 @@ const App = () => {
     </main>
   );
 };
-
 
 export default App;
