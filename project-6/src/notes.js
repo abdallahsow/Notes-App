@@ -6,7 +6,9 @@ import Editor from "./components/Editor";
 import "./notes.css";
 
 const App = () => {
-  const [notes, setNotes] = useState(JSON.parse(localStorage.notes) || []);
+  const [notes, setNotes] = useState(
+    () => JSON.parse(localStorage.notes) || []
+  );
   const [currentNoteId, setCurrentNoteId] = useState(
     [notes[0] && notes[0].id] || ""
   );
@@ -26,11 +28,22 @@ const App = () => {
   }, [notes]);
 
   function updateNote(text) {
-    setNotes(() =>
-      notes.map((note) =>
-        note.id === currentNoteId ? { ...note, body: text } : note
-      )
-    );
+    setNotes(() => {
+      const orderedArray = [];
+      for (const note of notes) {
+        if (note.id === currentNoteId) {
+          orderedArray.unshift({ ...note, body: text });
+        } else {
+          orderedArray.push(note);
+        }
+      }
+      return orderedArray;
+    });
+  }
+
+  function deleteNote(event, noteId) {
+    event.stopPropagation();
+    setNotes((prevNotes) => prevNotes.filter((prevNote) => prevNote.id !== noteId));
   }
 
   function findCurrentNote() {
@@ -50,6 +63,7 @@ const App = () => {
             currentNote={findCurrentNote()}
             setCurrentNoteId={setCurrentNoteId}
             newNote={createNewNote}
+            handleDelete={deleteNote}
           />
           {currentNoteId && notes.length > 0 && (
             <Editor currentNote={findCurrentNote()} updateNote={updateNote} />
