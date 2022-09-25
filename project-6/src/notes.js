@@ -6,7 +6,7 @@ import Editor from "./components/Editor";
 import "./notes.css";
 
 const App = () => {
-  const [notes, setNotes] = useState(JSON.parse(localStorage.notes) || []);
+  const [notes, setNotes] = useState( () => JSON.parse(localStorage.notes) || []);
   const [currentNoteId, setCurrentNoteId] = useState(
     [notes[0] && notes[0].id] || ""
   );
