@@ -26,10 +26,17 @@ const App = () => {
   }, [notes]);
 
   function updateNote(text) {
-    setNotes(() =>
-      notes.map((note) =>
-        note.id === currentNoteId ? { ...note, body: text } : note
-      )
+    setNotes(() => {
+      const orderedArray = []
+      for (const note of notes) {
+        if (note.id === currentNoteId) {
+          orderedArray.unshift({ ...note, body: text })
+        } else {
+          orderedArray.push(note)
+        }
+      }
+      return orderedArray
+    }
     );
   }
 
